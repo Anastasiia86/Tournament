@@ -12,28 +12,28 @@ class GameManagerTest {
     GameManager manager = new GameManager();
     Player playerOne = new Player(1, "Коля-победитель", 100);
     Player playerTwo = new Player(2, "Павел", 90);
-    Player playerThree = new Player(3, "Игорь", 90);
+    Player playerThree = new Player(3, "Петя", 90);
 
     @BeforeEach
     void setup() {
-        manager.register(playerOne);
-        manager.register(playerTwo);
-        manager.register(playerThree);
+        manager.register("коля-победитель", playerOne);
+        manager.register("павел", playerTwo);
+        manager.register("игорь", playerThree);
     }
 
     @Test
     void shouldFirstPlayerWin() {
-        assertEquals(1, manager.round("Коля-победитель", "Павел"));
+        assertEquals(1, manager.round("кОля-ПоБеДиТеЛь", "Павел"));
     }
 
     @Test
     void shouldSecondPlayerWin() {
-        assertEquals(2, manager.round("Игорь", "Коля-победитель"));
+        assertEquals(2, manager.round("ИгорЬ", "Коля-победитель"));
     }
 
     @Test
     void shouldDraw() {
-        assertEquals(0, manager.round("Игорь", "Павел"));
+        assertEquals(0, manager.round("ИгорЬ", "ПавеЛ"));
     }
 
     @Test
