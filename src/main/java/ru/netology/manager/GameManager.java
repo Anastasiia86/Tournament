@@ -1,47 +1,98 @@
 package ru.netology.manager;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import ru.netology.domain.Player;
 import ru.netology.exception.NotRegisteredException;
 
-import java.util.ArrayList;
-import java.util.List;
+public class GameTest {
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
-public class GameManager {
-    private List<Player> players = new ArrayList<>();
+    @Test
+    public void shouldFirstBeLessThanSecond() {
+        Game game = new Game();
+        Player player1 = new Player(1, "Milana", 100);
+        Player player2 = new Player(2, "Diego", 102);
 
-    public boolean register(Player player) {
-        return players.add(player);
+        game.register(player1);
+        game.register(player2);
+
+        int expected = 2;
+        int actual = game.round("Milana", "Diego");
+
+        Assertions.assertEquals(expected, actual);
+
     }
 
-    public int round(String playerName1, String playerName2) {
-        int indexOne = indexFound(playerName1);
-        int indexTwo = indexFound(playerName2);
-        if (indexOne == -1) {
-            throw new NotRegisteredException("Первый игрок не зарегистрирован для участия в турнире!");
-        } else if (indexTwo == -1) {
-            throw new NotRegisteredException("Второй игрок не зарегистрирован для участия в турнире!");
-        }
-        if (players.get(indexOne).getStrength() > players.get(indexTwo).getStrength()) {
-            return 1;
-        } else if (players.get(indexOne).getStrength() < players.get(indexTwo).getStrength()) {
-            return 2;
-        } else {
-            return 0;
-        }
+    @Test
+    public void shouldFirstBeMoreThanSecond() {
+        Game game = new Game();
+        Player player1 = new Player(3, "Natalia", 110);
+        Player player2 = new Player(2, "Diego", 102);
+
+        game.register(player1);
+        game.register(player2);
+
+        int expected = 1;
+        int actual = game.round("Natalia", "Diego");
+
+        Assertions.assertEquals(expected, actual);
+
     }
 
-    public int indexFound(String playerName) {
-        for (Player player : players) {
-            if (player.getName().equalsIgnoreCase(playerName)) {
-                return players.indexOf(player);
-            }
-        }
-        return -1;
+    @Test
+    public void shouldEqualPlayers() {
+        Game game = new Game();
+        Player player1 = new Player(3, "Natalia", 110);
+        Player player2 = new Player(4, "Pedro", 110);
+
+        game.register(player1);
+        game.register(player2);
+
+        int expected = 0;
+        int actual = game.round("Natalia", "Pedro");
+
+        Assertions.assertEquals(expected, actual);
+
+    }
+
+    @Test
+    public void shouldGetId() {
+        Game game = new Game();
+        Player player1 = new Player(3, "Natalia", 110);
+        game.register(player1);
+
+
+        int expected = 3;
+        int actual = player1.getId();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldThrow1() {
+        Game game = new Game();
+        Player player1 = new Player(3, "Natalia", 110);
+        Player player2 = new Player(4, "Diego", 110);
+
+
+        game.register(player1);
+        game.register(player2);
+
+
+        Assertions.assertThrows(NotRegisteredException.class, () -> game.round("Natalia", "Milana"));
+    }
+
+    @Test
+    public void shouldThrow2() {
+        Game game = new Game();
+        Player player1 = new Player(3, "Mika", 110);
+        Player player2 = new Player(4, "Diego", 110);
+
+
+        game.register(player1);
+        game.register(player2);
+
+
+        Assertions.assertThrows(NotRegisteredException.class, () -> game.round("Natalia", "Diego"));
     }
 }
