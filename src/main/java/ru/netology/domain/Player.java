@@ -5,10 +5,30 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 public class Player {
-    private int id;
-    private String name;
-    private int strength;
+
+    int id;
+    String name;
+    int strength;
+
+    public Player(int id, String name, int strength) {
+        this.id = id;
+        this.name = name;
+        this.strength = strength;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getStrength() {
+        return strength;
+    }
+
+
 }
